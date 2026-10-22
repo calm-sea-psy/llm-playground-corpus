@@ -1,0 +1,42 @@
+[project]
+name = "playground-corpus"
+version = "0.0.0"
+description = "코퍼스 타입 · 청킹 · 임베딩 — llm-playground 공통 모듈"
+readme = "README.md"
+authors = [
+    { name = "yunpilsoo", email = "305675348+calm-sea-psy@users.noreply.github.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "numpy>=2.5.4",
+    "tokenizers>=0.22",
+]
+
+[project.optional-dependencies]
+parquet = ["pyarrow>=26.0.0"]
+local = [
+    "torch>=2.11.0",
+    "sentence-transformers>=5.0",
+]
+
+[build-system]
+requires = ["uv_build>=0.11.32,<0.12.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "ruff>=0.17.1",
+]
+
+# 이 레포에서 개발할 때만 쓰는 설정. 설치하는 쪽에는 영향이 없다
+[tool.uv.sources]
+torch = { index = "pytorch-cu128" }
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
