@@ -1,24 +1,15 @@
-"""텍스트를 벡터로 바꾸는 임베딩 계약."""
+"""임베딩 계약 · 후보 모델 정의 · sentence-transformers 구현 · 벡터 캐시."""
 
-from collections.abc import Sequence
-from typing import Protocol
+from playground_corpus.embedding.cache import EmbeddingCache, EmbeddingCacheInfo
+from playground_corpus.embedding.models import EMBEDDING_MODELS, EmbeddingModelSpec
+from playground_corpus.embedding.protocol import Embedder
+from playground_corpus.embedding.sentence import SentenceTransformerEmbedder
 
-import numpy as np
-from numpy.typing import NDArray
-
-__all__ = ["Embedder"]
-
-
-class Embedder(Protocol):
-    """텍스트를 벡터로 바꾸는 임베딩 모델."""
-
-    def encode(self, texts: Sequence[str]) -> NDArray[np.float32]:
-        """텍스트 묶음을 임베딩한다.
-
-        Args:
-          texts: 임베딩할 텍스트 n개.
-
-        Returns:
-          (n, d). 행마다 L2 정규화돼 있다.
-        """
-        ...
+__all__ = [
+    "EMBEDDING_MODELS",
+    "Embedder",
+    "EmbeddingCache",
+    "EmbeddingCacheInfo",
+    "EmbeddingModelSpec",
+    "SentenceTransformerEmbedder",
+]
