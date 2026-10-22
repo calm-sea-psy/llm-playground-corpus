@@ -329,7 +329,8 @@ def _write_outputs(
         + render_table(rows, columns)
     )
     REPORTS_DIR.mkdir(exist_ok=True)
-    (REPORTS_DIR / f"{run_id}.md").write_text(report, encoding="utf-8")
+    # Windows 에서도 LF 로 (리포트는 커밋하고 .gitattributes 가 LF)
+    (REPORTS_DIR / f"{run_id}.md").write_text(report, encoding="utf-8", newline="\n")
     print(f"report: {REPORTS_DIR / f'{run_id}.md'}")
 
 
