@@ -40,6 +40,10 @@ class HFTokenizer:
     """
 
     def __init__(self, backend: HFTokenizerBackend, *, name: str) -> None:
+        # tokenizer.json 에 자르기 · 패딩이 들어 있으면(KoE5 512, KURE-v1 2048) 긴 글도 그 길이로 세어
+        # 청커가 "들어간다" 고 잘못 판단한다. 개수를 세는 용도라 둘 다 끈다
+        backend.no_truncation()
+        backend.no_padding()
         self._backend = backend
         self.name = name
 

@@ -34,6 +34,18 @@ def test_spans_point_to_original_text(tokenizer_file: Path):
     assert pieces == ["서울은", "수도이다", "."]
 
 
+def test_count_ignores_truncation_in_tokenizer_file(tmp_path: Path):
+    backend = Backend(WordLevel({"[UNK]": 0}, unk_token="[UNK]"))
+    backend.pre_tokenizer = Whitespace()
+    backend.enable_truncation(max_length=4)  # KoE5 처럼 tokenizer.json 에 자르기가 들어 있는 경우
+    path = tmp_path / "truncating.json"
+    backend.save(str(path))
+
+    tokenizer = HFTokenizer.from_file(path)
+
+    assert tokenizer.count("하나 둘 셋 넷 다섯 여섯") == 6
+
+
 def test_from_file_names_tokenizer_by_content_hash(tokenizer_file: Path):
     tokenizer = HFTokenizer.from_file(tokenizer_file)
 
