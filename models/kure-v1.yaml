@@ -1,0 +1,35 @@
+# 선정 임베딩 모델 · 청크 설정 (D8, 2026-10-22)
+# 제품 쪽 설정(llm-playground-rag configs/ingest.yaml)은 이 값을 옮겨 쓰고 출처로 이 파일을 적는다.
+
+model:
+  name: kure-v1
+  model_id: nlpai-lab/KURE-v1
+  dim: 1024
+  max_seq_length: 8192
+  query_prefix: ""
+  passage_prefix: ""
+
+chunking:
+  max_tokens: 384
+  overlap_ratio: 0.15
+  min_chars: 50
+
+tokenizer:
+  # 모델이 바뀌어 토크나이저가 달라지면 재청킹해야 한다 — 이 값으로 바뀌었는지 확인한다
+  model_id: nlpai-lab/KURE-v1
+  tokenizer_json_sha256: fb3c3b93c46fd5a8634e262e1b7de7da11a18b527aa2282b312952b692781dfd
+  # bge-m3 와 어휘 · 토큰 수는 같지만 tokenizer.json 에 자르기 · 패딩 설정이 들어 있어 해시는 다르다
+  chars_per_token: 1.76  # kowiki 서브셋 청크 기준 (숫자 · 영문 · 한자가 섞여 순수 한국어 문장 2.3 보다 낮다)
+
+selected_by:
+  report: reports/2026-10-22-embed-compare.md
+  # kowiki 서브셋 1만 · KorQuAD dev 5,766문항, 서브셋 수치는 상대 비교 전용
+  dense_hit_at_5:
+    kure-v1: {256: 0.867, 384: 0.850, 512: 0.836}
+    bge-m3: {256: 0.827, 384: 0.806, 512: 0.793}
+    koe5: {256: 0.816, 384: 0.802, 508: 0.792}
+  reason: >-
+    KURE-v1 이 모든 청크 크기에서 bge-m3 · KoE5 보다 hit@5 4~5%p 높고 처리량 · VRAM 은 같다.
+    Dense 단독은 256 이 높지만 리랭커(bge-reranker-v2-m3)를 붙이면 384 가 같거나 높다
+    (llm-playground-rag reports/2026-10-22-retrieval-bm25-bm25-rerank.md: BM25+리랭커 hit@5 256 0.890 · 384 0.894).
+    384 는 벡터가 약 22% 적고 답변 생성에 문맥이 넓다.
