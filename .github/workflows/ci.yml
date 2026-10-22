@@ -1,7 +1,6 @@
 # 린트 · 테스트. main push 와 PR 에서 돈다
 #   test: extras 전부 설치. 토크나이저 계약 테스트는 CI 환경변수가 있으면 skip 하지 않고 실패한다
 #   base: extras 없이 설치해 base import 가 extras 를 올리지 않는지만 본다
-# 첫 태그 전까지 llm-playground-llm 을 같은 부모 폴더에 나란히 둔다 (pyproject.toml 의 path 의존)
 name: CI
 
 on:
@@ -16,18 +15,9 @@ jobs:
   test:
     name: test
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: llm-playground-corpus
     steps:
       - uses: actions/checkout@v5
-        with:
-          path: llm-playground-corpus
-      - uses: actions/checkout@v5
-        with:
-          repository: calm-sea-psy/llm-playground-llm
-          path: llm-playground-llm
-      - uses: astral-sh/setup-uv@v6
+      - uses: astral-sh/setup-uv@v10.2.0
       - name: Install
         run: uv sync --locked --all-extras
       - name: Ruff
@@ -40,18 +30,9 @@ jobs:
   base:
     name: base (no extras)
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: llm-playground-corpus
     steps:
       - uses: actions/checkout@v5
-        with:
-          path: llm-playground-corpus
-      - uses: actions/checkout@v5
-        with:
-          repository: calm-sea-psy/llm-playground-llm
-          path: llm-playground-llm
-      - uses: astral-sh/setup-uv@v6
+      - uses: astral-sh/setup-uv@v10.2.0
       - name: Install
         run: uv sync --locked
       - name: Base import
