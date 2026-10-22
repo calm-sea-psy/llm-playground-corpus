@@ -11,7 +11,7 @@ llm-playground 프로젝트들이 함께 쓰는 코퍼스 모듈입니다. 패�
 ## 벤치 — 임베딩 모델 × 청크 크기 비교
 
 llm-playground-rag 가 만든 서브셋과 KorQuAD dev 로 검색 품질(hit@k · MRR) · 처리량 · VRAM 을 잽니다.
-llm-playground-rag · llm-playground-llm 을 같은 부모 폴더에 나란히 clone 해 두어야 합니다.
+서브셋 데이터를 읽으므로 llm-playground-rag 를 같은 부모 폴더에 나란히 clone 해 두어야 합니다. evalkit 은 git 태그로 설치됩니다.
 
 ```bash
 uv run --group bench --extra parquet --extra local python bench/embed_compare.py
@@ -25,16 +25,16 @@ uv run --group bench --extra parquet --extra local python bench/embed_compare.py
 
 ```bash
 # 기본 — 타입 · 토크나이저 · Protocol (numpy, tokenizers)
-uv add playground-corpus
+uv add "playground-corpus @ git+https://github.com/calm-sea-psy/llm-playground-corpus@v0.1.0"
 
 # parquet 읽기 · 쓰기
-uv add "playground-corpus[parquet]"
+uv add "playground-corpus[parquet] @ git+https://github.com/calm-sea-psy/llm-playground-corpus@v0.1.0"
 
 # 임베딩 모델 실행 (torch, sentence-transformers)
-uv add "playground-corpus[local]"
+uv add "playground-corpus[local] @ git+https://github.com/calm-sea-psy/llm-playground-corpus@v0.1.0"
 ```
 
-0.x 동안은 깨는 변경이 있을 수 있습니다. 첫 태그 전에는 같은 폴더에 나란히 clone 해서 path 의존으로 씁니다.
+0.x 동안은 깨는 변경이 있을 수 있습니다. 이 레포와 함께 고칠 때는 같은 부모 폴더에 나란히 clone 하고 잠깐 path 로 바꿔 씁니다: `{ path = "../llm-playground-corpus", editable = true }`.
 
 ## 개발
 

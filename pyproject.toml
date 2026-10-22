@@ -1,6 +1,6 @@
 [project]
 name = "playground-corpus"
-version = "0.0.0"
+version = "0.1.0"
 description = "코퍼스 타입 · 청킹 · 임베딩 — llm-playground 공통 모듈"
 readme = "README.md"
 authors = [
@@ -36,8 +36,7 @@ bench = [
 # 이 레포에서 개발할 때만 쓰는 설정. 설치하는 쪽에는 영향이 없다
 [tool.uv.sources]
 torch = { index = "pytorch-cu128" }
-# 첫 태그 전 — llm-playground-llm 을 같은 부모 폴더에 나란히 clone
-playground-evalkit = { path = "../llm-playground-llm/packages/evalkit", editable = true }
+playground-evalkit = { git = "https://github.com/calm-sea-psy/llm-playground-llm", tag = "evalkit-v0.1.0", subdirectory = "packages/evalkit" }
 
 [[tool.uv.index]]
 name = "pytorch-cu128"

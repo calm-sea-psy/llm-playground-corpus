@@ -641,7 +641,7 @@ wheels = [
 
 [[package]]
 name = "playground-corpus"
-version = "0.0.0"
+version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "numpy" },
@@ -677,7 +677,7 @@ requires-dist = [
 provides-extras = ["parquet", "local"]
 
 [package.metadata.requires-dev]
-bench = [{ name = "playground-evalkit", editable = "../llm-playground-llm/packages/evalkit" }]
+bench = [{ name = "playground-evalkit", git = "https://github.com/calm-sea-psy/llm-playground-llm?subdirectory=packages%2Fevalkit&tag=evalkit-v0.1.0" }]
 dev = [
     { name = "pytest", specifier = ">=9.1.1" },
     { name = "ruff", specifier = ">=0.17.1" },
@@ -685,8 +685,8 @@ dev = [
 
 [[package]]
 name = "playground-evalkit"
-version = "0.0.0"
-source = { editable = "../llm-playground-llm/packages/evalkit" }
+version = "0.1.0"
+source = { git = "https://github.com/calm-sea-psy/llm-playground-llm?subdirectory=packages%2Fevalkit&tag=evalkit-v0.1.0#c25e10080a0babb8b2ed0de7ea5e6505f90eae7e" }
 
 [[package]]
 name = "pluggy"
