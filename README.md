@@ -4,10 +4,22 @@ llm-playground 프로젝트들이 함께 쓰는 코퍼스 모듈입니다. 패�
 
 - 코퍼스 타입: `Document` · `Section` · `Chunk`
 - 토크나이저: `Tokenizer` Protocol, `HFTokenizer`(HF `tokenizers` 기반)
-- 임베딩: `Embedder` Protocol
+- 청커: `Chunker` · `ChunkingConfig` — 섹션 단위, 긴 섹션은 오버랩을 둔 토큰 창
+- 임베딩: `Embedder` Protocol, 후보 모델 `EMBEDDING_MODELS`(bge-m3 · KURE-v1 · KoE5), `SentenceTransformerEmbedder`(`[local]` extras), npy 샤드 캐시 `EmbeddingCache`
 - Document ↔ parquet 읽기 · 쓰기 (`[parquet]` extras)
 
-청커와 임베딩 모델 구현(`[local]` extras), 모델 비교 벤치는 이어서 추가합니다.
+## 벤치 — 임베딩 모델 × 청크 크기 비교
+
+llm-playground-rag 가 만든 서브셋과 KorQuAD dev 로 검색 품질(hit@k · MRR) · 처리량 · VRAM 을 잽니다.
+llm-playground-rag · llm-playground-llm 을 같은 부모 폴더에 나란히 clone 해 두어야 합니다.
+
+```bash
+uv run --group bench --extra parquet --extra local python bench/embed_compare.py
+# 시험: 모델 · 크기 · 문서 수를 줄여서
+uv run --group bench --extra parquet --extra local python bench/embed_compare.py --models bge-m3 --max-tokens 384 --limit-docs 300 --run-id smoke
+```
+
+임베딩은 `bench/data/emb/` 에 캐시해 다시 계산하지 않고, 집계 표는 `reports/{run_id}.md` 에 씁니다.
 
 ## 설치
 

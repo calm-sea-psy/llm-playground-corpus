@@ -658,6 +658,9 @@ parquet = [
 ]
 
 [package.dev-dependencies]
+bench = [
+    { name = "playground-evalkit" },
+]
 dev = [
     { name = "pytest" },
     { name = "ruff" },
@@ -674,10 +677,16 @@ requires-dist = [
 provides-extras = ["parquet", "local"]
 
 [package.metadata.requires-dev]
+bench = [{ name = "playground-evalkit", editable = "../llm-playground-llm/packages/evalkit" }]
 dev = [
     { name = "pytest", specifier = ">=9.1.1" },
     { name = "ruff", specifier = ">=0.17.1" },
 ]
+
+[[package]]
+name = "playground-evalkit"
+version = "0.0.0"
+source = { editable = "../llm-playground-llm/packages/evalkit" }
 
 [[package]]
 name = "pluggy"
