@@ -1,5 +1,5 @@
 # 선정 임베딩 모델 · 청크 설정 (D8, 2026-10-22)
-# 제품 쪽 설정(llm-playground-rag configs/ingest.yaml)은 이 값을 옮겨 쓰고 출처로 이 파일을 적는다.
+# 제품 쪽 설정(llm-playground-wiki configs/ingest.yaml, 옛 이름 llm-playground-rag)은 이 값을 옮겨 쓰고 출처로 이 파일을 적는다.
 
 model:
   name: kure-v1
@@ -31,5 +31,5 @@ selected_by:
   reason: >-
     KURE-v1 이 모든 청크 크기에서 bge-m3 · KoE5 보다 hit@5 4~5%p 높고 처리량 · VRAM 은 같다.
     Dense 단독은 256 이 높지만 리랭커(bge-reranker-v2-m3)를 붙이면 384 가 같거나 높다
-    (llm-playground-rag reports/2026-10-22-retrieval-bm25-bm25-rerank.md: BM25+리랭커 hit@5 256 0.890 · 384 0.894).
+    (llm-playground-wiki reports/2026-10-22-retrieval-bm25-bm25-rerank.md: BM25+리랭커 hit@5 256 0.890 · 384 0.894).
     384 는 벡터가 약 22% 적고 답변 생성에 문맥이 넓다.

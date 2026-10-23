@@ -10,8 +10,8 @@ llm-playground 프로젝트들이 함께 쓰는 코퍼스 모듈입니다. 패�
 
 ## 벤치 — 임베딩 모델 × 청크 크기 비교
 
-llm-playground-rag 가 만든 서브셋과 KorQuAD dev 로 검색 품질(hit@k · MRR) · 처리량 · VRAM 을 잽니다.
-서브셋 데이터를 읽으므로 llm-playground-rag 를 같은 부모 폴더에 나란히 clone 해 두어야 합니다. evalkit 은 git 태그로 설치됩니다.
+llm-playground-wiki(옛 llm-playground-rag)가 만든 서브셋과 KorQuAD dev 로 검색 품질(hit@k · MRR) · 처리량 · VRAM 을 잽니다.
+서브셋 데이터를 읽으므로 llm-playground-wiki 를 같은 부모 폴더에 나란히 clone 해 두어야 합니다. evalkit 은 git 태그로 설치됩니다.
 
 ```bash
 uv run --group bench --extra parquet --extra local python bench/embed_compare.py
