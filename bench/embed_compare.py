@@ -1,6 +1,6 @@
 """임베딩 모델 × 청크 크기 비교 벤치: KorQuAD dev 로 검색 품질 · 처리량 · VRAM 을 잰다.
 
-입력은 llm-playground-rag 가 만든 서브셋(parquet + subset.json)과 KorQuAD dev 다.
+입력은 llm-playground-wiki(옛 llm-playground-rag)가 만든 서브셋(parquet + subset.json)과 KorQuAD dev 다.
 이 레포는 RAG 를 import 하지 않고 파일로만 받는다.
 
 검색은 numpy 전수 비교(정확한 최근접)로 한다. 서브셋 수치는 모델 · 설정 간 상대 비교 전용이다.
@@ -50,7 +50,7 @@ from playground_corpus import (
     read_documents,
 )
 
-DEFAULT_SUBSET = Path("../llm-playground-rag/data/parsed/kowiki-subset-10000")
+DEFAULT_SUBSET = Path("../llm-playground-wiki/data/parsed/kowiki-subset-10000")
 OUT_DIR = Path("bench/data")
 REPORTS_DIR = Path("reports")
 MAX_TOKENS = (256, 384, 512)
