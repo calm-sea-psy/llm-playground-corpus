@@ -63,7 +63,7 @@ class Chunker:
             for body in self._split_section(header, section.text):
                 if len(body) < self.config.min_chars:
                     continue
-                text = f"{header}\n{body}"
+                text = _join(header, body)
                 seq = len(chunks)
                 chunks.append(
                     Chunk(
@@ -84,7 +84,7 @@ class Chunker:
         if self._fits(header, body):
             return [body]
         spans = self._tokenizer.spans(body)
-        budget = max(1, self.config.max_tokens - self._tokenizer.count(f"{header}\n"))
+        budget = max(1, self.config.max_tokens - self._tokenizer.count(_join(header, "")))
         overlap = int(budget * self.config.overlap_ratio)
         pieces: list[str] = []
         start_token = 0
@@ -112,17 +112,22 @@ class Chunker:
                 return _Window(start_char, end_char, end_token)
             # 헤더와 붙이면서 경계 토큰이 달라져 넘친 경우 — 넘친 만큼 줄여 다시 센다
             overflow = (
-                self._tokenizer.count(f"{header}\n{body[start_char:end_char].strip()}")
+                self._tokenizer.count(_join(header, body[start_char:end_char].strip()))
                 - self.config.max_tokens
             )
             end_token = max(start_token + 1, end_token - max(1, overflow))
 
     def _fits(self, header: str, body: str) -> bool:
-        return self._tokenizer.count(f"{header}\n{body}") <= self.config.max_tokens
+        return self._tokenizer.count(_join(header, body)) <= self.config.max_tokens
 
 
 def _header(title: str, section: Section) -> str:
     return f"{title}{HEADER_SEPARATOR}{section.title}" if section.title else title
+
+
+def _join(header: str, body: str) -> str:
+    """청크 텍스트 형식. 토큰을 셀 때와 저장 · 임베딩할 때 같은 문자열이어야 한다."""
+    return f"{header}\n{body}"
 
 
 def _snap_to_boundary(
