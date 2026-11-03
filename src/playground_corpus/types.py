@@ -29,7 +29,11 @@ class Document:
     categories: tuple[str, ...] = ()
     """분류 이름. 본문에서 빼서 여기에 둔다."""
     meta: Mapping[str, str] = field(default_factory=dict)
-    """source · url · dump_date 등 문자열 메타데이터."""
+    """source · url · dump_date 등 문자열 메타데이터.
+
+    만든 뒤 고치지 않는다. MappingProxyType 으로 막지 않는 이유: 위키 파싱이 문서를 프로세스 사이로
+    pickle 해서 넘기는데 MappingProxyType 은 pickle · deepcopy 가 되지 않는다.
+    """
 
 
 @dataclass(frozen=True)
